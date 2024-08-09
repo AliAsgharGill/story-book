@@ -1,6 +1,6 @@
-// TimezonePicker.tsx
 import React from "react";
 import { Select } from "antd";
+import styled from "styled-components";
 import moment from "moment-timezone";
 
 const { Option } = Select;
@@ -114,10 +114,14 @@ const timezones = moment.tz
     }`,
   });
 
+const StyledSelect = styled(Select)`
+  width: 500px;
+`;
+
 const TimezonePicker: React.FC<TimezonePickerProps> = ({ onChange, style }) => (
-  <Select
+  <StyledSelect
     showSearch
-    style={style || { width: 500 }}
+    style={style}
     placeholder="Select a timezone"
     optionFilterProp="children"
     onChange={onChange}
@@ -132,7 +136,7 @@ const TimezonePicker: React.FC<TimezonePickerProps> = ({ onChange, style }) => (
         {tz.fullName}
       </Option>
     ))}
-  </Select>
+  </StyledSelect>
 );
 
 export default TimezonePicker;

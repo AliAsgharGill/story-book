@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { Button, Modal } from "antd";
+import styled from "styled-components";
 
 interface ModalProps {
   title: string;
   buttonText: string;
   content: string[];
 }
+
+const StyledButton = styled(Button)`
+`;
+
+const StyledModal = styled(Modal)`
+`;
 
 const ModalComponent: React.FC<ModalProps> = ({ title, buttonText, content }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,10 +31,10 @@ const ModalComponent: React.FC<ModalProps> = ({ title, buttonText, content }) =>
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>
+      <StyledButton type="primary" onClick={showModal}>
         {buttonText}
-      </Button>
-      <Modal
+      </StyledButton>
+      <StyledModal
         title={title}
         open={isModalOpen}
         onOk={handleOk}
@@ -36,7 +43,7 @@ const ModalComponent: React.FC<ModalProps> = ({ title, buttonText, content }) =>
         {content.map((text, index) => (
           <p key={index}>{text}</p>
         ))}
-      </Modal>
+      </StyledModal>
     </>
   );
 };

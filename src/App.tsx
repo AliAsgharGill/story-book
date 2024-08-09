@@ -12,7 +12,7 @@ function App() {
         buttonText="Open My Modal"
       />
       <TimezonePicker />
-      <SchedulePicker isValid={} />
+      {/* <SchedulePicker isValid={} /> */}
     </>
   );
 }

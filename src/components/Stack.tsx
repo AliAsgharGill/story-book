@@ -12,7 +12,7 @@ export default function Stack({
     horizontal: {
       display: 'flex',
       flexDirection: 'row',
-      gap: '1rem',
+      gap: '1rem',  
     },
     vertical: {
       display: 'flex',
