@@ -9,7 +9,7 @@ const meta: Meta<SpaceBetweenProps> = {
   argTypes: {
     direction: {
       control: { type: "select" },
-      options: ["horoizontal", "vertical"],
+      options: ["horizontal", "vertical"], 
     },
     justify: {
       control: { type: "select" },

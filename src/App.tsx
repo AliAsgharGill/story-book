@@ -1,18 +1,28 @@
+import styled from "styled-components";
 import "./App.css";
-import ModalComponent from "./components/Modal";
-import SchedulePicker from "./components/SchedulePicker";
-import TimezonePicker from "./components/TimezonePicker";
+import SpaceBetween from "./components/SpaceBetween";
+import { Button } from "antd/es/radio";
+
+const Wrapper = styled.div`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  background-color: red;
+  margin:10px;
+  border-radius:20px;
+  padding:20px;
+`;
+
 function App() {
-  return (
+  return (  
     <>
-      <h1>Hello</h1>
-      <ModalComponent
-        content={["Saim contents...", "Some contents...", "Some contents..."]}
-        title="Basic Modal"
-        buttonText="Open My Modal"
-      />
-      <TimezonePicker />
-      {/* <SchedulePicker isValid={} /> */}
+      <Wrapper>
+        <SpaceBetween direction="vertical" justify="end">
+          <Button>Button 1</Button>
+          <Button>Button 2</Button>
+          <Button>Button 3</Button>
+        </SpaceBetween>
+      </Wrapper>
     </>
   );
 }
