@@ -4,8 +4,8 @@ import SpaceBetween from "./components/SpaceBetween";
 import { Button } from "antd/es/radio";
 
 const Wrapper = styled.div`
-  height: 100vh;
-  width: 100vw;
+  height: 400px;
+  width: 400px;
   display: flex;
   background-color: red;
   margin:10px;

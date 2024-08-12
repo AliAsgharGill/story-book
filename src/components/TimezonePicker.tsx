@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Select } from "antd";
 import styled from "styled-components";
@@ -5,7 +6,7 @@ import moment from "moment-timezone";
 
 const { Option } = Select;
 
-interface TimezonePickerProps {
+export interface TimezonePickerProps {
   onChange?: (value: string | null) => void;
   style?: React.CSSProperties;
 }
@@ -89,7 +90,7 @@ const tzAndPlaces: Record<string, string> = {
   "Pacific/Tongatapu": "Nuku'alofa",
 };
 
-const buildTZ = (id: string) => {
+const buildTZ = (id: string): { id: string; fullName: string; gmt: string } => {
   const momentTz = moment.tz(id);
   const offset = momentTz.utcOffset();
   const places = tzAndPlaces[id] ? tzAndPlaces[id] : "";
@@ -99,12 +100,17 @@ const buildTZ = (id: string) => {
   return { id, fullName, gmt };
 };
 
-const timezones = moment.tz
+type Timezone = {
+  id: string | null;
+  fullName: string;
+};
+
+const timezones: Timezone[] = moment.tz
   .names()
-  .filter((tz) => tzAndPlaces[tz])
+  .filter((tz: string) => tzAndPlaces[tz]) // Explicit type for 'tz'
   .reduce(
-    (acum, id) => [...acum, buildTZ(id)],
-    [] as Array<{ id: string; fullName: string }>
+    (acum: Timezone[], id: string) => [...acum, buildTZ(id)],
+    [] as Timezone[]
   )
   .sort((a, b) => a.fullName.localeCompare(b.fullName))
   .concat({
@@ -124,11 +130,13 @@ const TimezonePicker: React.FC<TimezonePickerProps> = ({ onChange, style }) => (
     style={style}
     placeholder="Select a timezone"
     optionFilterProp="children"
-    onChange={onChange}
+    onChange={(value) => onChange?.(value as string | null)}
     defaultValue={null}
     filterOption={(input, option) =>
-      option?.children.toString().toLowerCase().indexOf(input.toLowerCase()) >=
-      0
+      option?.children
+        .toString()
+        .toLowerCase()
+        .indexOf(input.toLowerCase()) >= 0
     }
   >
     {timezones.map((tz) => (

@@ -1,10 +1,8 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import TimezonePicker from '../components/TimezonePicker'; 
+import TimezonePicker, { TimezonePickerProps } from '../components/TimezonePicker';
 
-interface TimezonePickerStoryProps extends TimezonePickerProps {}
-
-const meta: Meta<TimezonePickerStoryProps> = {
+const meta: Meta<TimezonePickerProps> = {
   tags: ['autodocs'],
   title: 'TimeZone/TimezonePicker',
   component: TimezonePicker,
@@ -15,7 +13,7 @@ const meta: Meta<TimezonePickerStoryProps> = {
 
 export default meta;
 
-type Story = StoryObj<TimezonePickerStoryProps>;
+type Story = StoryObj<TimezonePickerProps>;
 
 export const Default: Story = {
   args: {
@@ -32,6 +30,8 @@ export const WithCustomStyle: Story = {
 
 export const WithOnChangeHandler: Story = {
   args: {
-    onChange: (value) => console.log('Selected Timezone:', value),
+    onChange: (value: string | null) => {
+      console.log('Selected Timezone:', value);
+    },
   },
 };
