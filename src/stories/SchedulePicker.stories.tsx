@@ -1,67 +1,86 @@
 import { Meta, StoryObj } from "@storybook/react";
 import SchedulePicker from "../components/SchedulePicker";
-import moment from "moment-timezone";
 
-export default {
-  title: "Components/SchedulePicker",
+const meta: Meta<typeof SchedulePicker> = {
+  title: "Schedule/SchedulePicker",
   component: SchedulePicker,
   tags: ["autodocs"],
-} as Meta;
-
-const Template: StoryObj<any> = (args) => <SchedulePicker {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {
-  scheduler: {
-    start_date: new Date("2024-03-27"),
-    end_date: new Date("2024-04-30"),
-    cadence: "day",
-    hour: "18",
-    minute: "25",
-    timezone: "America/New_York",
-  },
-  onChange: (value) => console.log("Schedule changed:", value),
-  isValid: (value) => console.log("Is schedule valid:", value),
 };
 
-export const CustomDateRange = Template.bind({});
-CustomDateRange.args = {
-  scheduler: {
-    start_date: new Date("2024-05-01"),
-    end_date: new Date("2024-06-01"),
-    cadence: "week",
-    hour: "09",
-    minute: "00",
-    timezone: "Europe/London",
-  },
-  onChange: (value) => console.log("Custom schedule changed:", value),
-  isValid: (value) => console.log("Is custom schedule valid:", value),
+export default meta;
+
+type Story = StoryObj<typeof SchedulePicker>;
+
+// Default SchedulePicker
+export const Default: Story = {
+  args: {},
 };
 
-export const DifferentTimezone = Template.bind({});
-DifferentTimezone.args = {
-  scheduler: {
-    start_date: new Date("2024-07-01"),
-    end_date: new Date("2024-08-01"),
-    cadence: "month",
-    hour: "12",
-    minute: "45",
-    timezone: "Asia/Tokyo",
+// SchedulePicker with Hourly Intervals
+export const HourlyIntervals: Story = {
+  args: {
+    occurrence: "Hourly Intervals",
+    runningInterval: "Every 2 hours",
   },
-  onChange: (value) => console.log("Timezone schedule changed:", value),
-  isValid: (value) => console.log("Is timezone schedule valid:", value),
 };
 
-export const InvalidSchedule = Template.bind({});
-InvalidSchedule.args = {
-  scheduler: {
-    start_date: new Date("2024-09-01"),
-    end_date: new Date("2024-08-01"), // End date before start date to simulate invalid state
-    cadence: "year",
-    hour: "23",
-    minute: "59",
-    timezone: "America/Los_Angeles",
+// SchedulePicker with Daily Occurrence
+export const DailyOccurrence: Story = {
+  args: {
+    occurrence: "Daily",
+    startDate: null,
+    endDate: null,
   },
-  onChange: (value) => console.log("Invalid schedule changed:", value),
-  isValid: (value) => console.log("Is invalid schedule valid:", value),
+};
+
+// SchedulePicker with Weekly Occurrence and Specific Days
+export const WeeklyOccurrence: Story = {
+  args: {
+    occurrence: "Weekly",
+    daysOfWeek: ["Mon", "Wed", "Fri"],
+  },
+};
+
+// SchedulePicker with Monthly Occurrence and Specific Days
+export const MonthlyOccurrence: Story = {
+  args: {
+    occurrence: "Monthly",
+    specificDays: [1, 15, 30],
+  },
+};
+
+// SchedulePicker with Yearly Occurrence and Specific Months
+export const YearlyOccurrence: Story = {
+  args: {
+    occurrence: "Yearly",
+    specificMonths: ["January", "June", "December"],
+    specificDays: [1],
+  },
+};
+
+// SchedulePicker with Custom Hourly Intervals
+export const CustomHourlyIntervals: Story = {
+  args: {
+    occurrence: "Hourly Intervals",
+    runningInterval: "Custom",
+    specificHours: [9, 12, 15],
+    specificMinutes: 30,
+  },
+};
+
+// SchedulePicker with Disabled End Date
+export const NoEndDate: Story = {
+  args: {
+    occurrence: "Daily",
+    startDate: null,
+    showEndDate: false,
+  },
+};
+
+// SchedulePicker with Pre-Selected Timezone
+export const PreSelectedTimezone: Story = {
+  args: {
+    occurrence: "One Time",
+    timeZone: "Pacific/Honolulu",
+  },
 };

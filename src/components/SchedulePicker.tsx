@@ -35,12 +35,33 @@ type RunningIntervalType =
   | "Custom";
 
 const timeZones = [
-  { value: "Etc/GMT+12", label: "(GMT-12:00) International Date Line West" },
-  { value: "Pacific/Midway", label: "(GMT-11:00) Midway Island, Samoa" },
-  { value: "Pacific/Honolulu", label: "(GMT-10:00) Hawaii" },
-  // Add more time zones as needed
-  { value: "Pacific/Fiji", label: "(GMT+12:00) Fiji, Kamchatka, Marshall Is." },
-];
+  { "value": "Etc/GMT+12", "label": "(GMT-12:00) International Date Line West" },
+  { "value": "Pacific/Midway", "label": "(GMT-11:00) Midway Island, Samoa" },
+  { "value": "Pacific/Honolulu", "label": "(GMT-10:00) Hawaii" },
+  { "value": "America/Anchorage", "label": "(GMT-09:00) Alaska" },
+  { "value": "America/Los_Angeles", "label": "(GMT-08:00) Pacific Time (US & Canada)" },
+  { "value": "America/Denver", "label": "(GMT-07:00) Mountain Time (US & Canada)" },
+  { "value": "America/Chicago", "label": "(GMT-06:00) Central Time (US & Canada)" },
+  { "value": "America/New_York", "label": "(GMT-05:00) Eastern Time (US & Canada)" },
+  { "value": "America/Halifax", "label": "(GMT-04:00) Atlantic Time (Canada)" },
+  { "value": "America/Argentina/Buenos_Aires", "label": "(GMT-03:00) Buenos Aires, Georgetown" },
+  { "value": "Atlantic/South_Georgia", "label": "(GMT-02:00) Mid-Atlantic" },
+  { "value": "Atlantic/Azores", "label": "(GMT-01:00) Azores" },
+  { "value": "Europe/London", "label": "(GMT+00:00) Greenwich Mean Time, London" },
+  { "value": "Europe/Berlin", "label": "(GMT+01:00) Central European Time" },
+  { "value": "Europe/Athens", "label": "(GMT+02:00) Eastern European Time" },
+  { "value": "Europe/Moscow", "label": "(GMT+03:00) Moscow Time" },
+  { "value": "Asia/Dubai", "label": "(GMT+04:00) Gulf Standard Time" },
+  { "value": "Asia/Karachi", "label": "(GMT+05:00) Pakistan Standard Time" },
+  { "value": "Asia/Dhaka", "label": "(GMT+06:00) Bangladesh Standard Time" },
+  { "value": "Asia/Bangkok", "label": "(GMT+07:00) Indochina Time" },
+  { "value": "Asia/Shanghai", "label": "(GMT+08:00) China Standard Time" },
+  { "value": "Asia/Tokyo", "label": "(GMT+09:00) Japan Standard Time" },
+  { "value": "Australia/Sydney", "label": "(GMT+10:00) Australian Eastern Standard Time" },
+  { "value": "Pacific/Guadalcanal", "label": "(GMT+11:00) Solomon Islands, Vanuatu" },
+  { "value": "Pacific/Fiji", "label": "(GMT+12:00) Fiji, Kamchatka" }
+]
+
 
 const SchedulePicker: React.FC = () => {
   const [occurrence, setOccurrence] = useState<OccurrenceType>("One Time");

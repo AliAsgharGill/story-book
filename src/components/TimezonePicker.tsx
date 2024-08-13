@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Select } from "antd";
 import styled from "styled-components";
@@ -107,12 +106,12 @@ type Timezone = {
 
 const timezones: Timezone[] = moment.tz
   .names()
-  .filter((tz: string) => tzAndPlaces[tz]) // Explicit type for 'tz'
+  .filter((tz: string) => tzAndPlaces[tz]) 
   .reduce(
     (acum: Timezone[], id: string) => [...acum, buildTZ(id)],
     [] as Timezone[]
   )
-  .sort((a, b) => a.fullName.localeCompare(b.fullName))
+  .sort((a: Timezone, b: Timezone) => a.fullName.localeCompare(b.fullName))
   .concat({
     id: null,
     fullName: `Let my browser decide - Currently ${
@@ -133,10 +132,8 @@ const TimezonePicker: React.FC<TimezonePickerProps> = ({ onChange, style }) => (
     onChange={(value) => onChange?.(value as string | null)}
     defaultValue={null}
     filterOption={(input, option) =>
-      option?.children
-        .toString()
-        .toLowerCase()
-        .indexOf(input.toLowerCase()) >= 0
+      option?.children.toString().toLowerCase().indexOf(input.toLowerCase()) >=
+      0
     }
   >
     {timezones.map((tz) => (
