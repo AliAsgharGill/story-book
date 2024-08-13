@@ -1,5 +1,5 @@
 import React, { useState, ReactNode } from "react";
-import { Button, Modal, Spin, Alert, Typography } from "antd";
+import { Button, Modal as AntdModal, Spin, Alert, Typography } from "antd";
 import styled from "styled-components";
 
 const { Text } = Typography;
@@ -32,11 +32,11 @@ const StyledButton = styled(Button)`
   ${(props) => props.style && { ...props.style }};
 `;
 
-const StyledModal = styled(Modal)`
+const StyledModal = styled(AntdModal)`
   ${(props) => props.style && { ...props.style }};
 `;
 
-const ModalComponent: React.FC<ModalProps> = ({
+const Modal: React.FC<ModalProps> = ({
   title,
   buttonText,
   buttonStyle,
@@ -115,4 +115,4 @@ const ModalComponent: React.FC<ModalProps> = ({
   );
 };
 
-export default ModalComponent;
+export default Modal;

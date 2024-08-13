@@ -1,27 +1,21 @@
 import styled from "styled-components";
 import "./App.css";
-import SpaceBetween from "./components/SpaceBetween";
-import { Button } from "antd/es/radio";
+import SchedulePicker from "./components/SchedulePicker";
 
 const Wrapper = styled.div`
-  height: 400px;
-  width: 400px;
   display: flex;
   background-color: red;
-  margin:10px;
-  border-radius:20px;
-  padding:20px;
+  margin: 10px;
+  border-radius: 20px;
+  padding: 20px;
 `;
 
 function App() {
-  return (  
+  return (
     <>
       <Wrapper>
-        <SpaceBetween direction="vertical" justify="end">
-          <Button>Button 1</Button>
-          <Button>Button 2</Button>
-          <Button>Button 3</Button>
-        </SpaceBetween>
+      <SchedulePicker timeZones={['1','2','3']} />
+
       </Wrapper>
     </>
   );

@@ -3,7 +3,7 @@ import ModalComponent from "../components/Modal";
 import { Button } from "antd";
 
 const meta: Meta<typeof ModalComponent> = {
-  title: "Modal/ModalComponent",
+  title: "Modal/Modal",
   component: ModalComponent,
   tags: ["autodocs"],
 };
