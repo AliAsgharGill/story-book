@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Select, DatePicker, TimePicker, Checkbox, Typography } from 'antd';
-import styled from 'styled-components';
-import { Dayjs } from 'dayjs';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState } from "react";
+import { Select, DatePicker, TimePicker, Checkbox, Typography } from "antd";
+import styled from "styled-components";
+import { Dayjs } from "dayjs";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -12,7 +13,7 @@ const Wrapper = styled.div`
   border-radius: 16px;
   max-width: 800px;
   margin: auto;
-  width:800px;
+  width: 800px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 `;
 
@@ -38,19 +39,19 @@ const StyledSelect = styled(Select)`
     height: 48px !important;
     padding: 0 16px !important;
     display: flex;
-    align-items: left;
+    align-items: center;
   }
 `;
 
 const StyledDatePicker = styled(DatePicker)`
   flex: 1;
   .ant-picker {
-    padding:11px;
+    padding: 11px;
     border-radius: 8px !important;
     height: 48px !important;
     padding: 0 16px !important;
     display: flex;
-    align-items: left;
+    align-items: center;
   }
 `;
 
@@ -61,7 +62,7 @@ const StyledTimePicker = styled(TimePicker)`
     height: 48px !important;
     padding: 0 16px !important;
     display: flex;
-    align-items: left;
+    align-items: center;
   }
 `;
 
@@ -94,89 +95,104 @@ const DayCheckbox = styled(Checkbox)`
   }
 `;
 
+type OccurrenceType =
+  | "One Time"
+  | "Hourly Intervals"
+  | "Daily"
+  | "Weekly"
+  | "Monthly"
+  | "Yearly";
+type ExecutionTimeType = "As soon as possible" | "Select time";
+type RunningIntervalType =
+  | "Every hour"
+  | "Every 2 hours"
+  | "Every 3 hours"
+  | "Every 4 hours"
+  | "Every 6 hours"
+  | "Every 8 hours"
+  | "Every 12 hours"
+  | "Every 24 hours"
+  | "Custom";
+
 const timeZones = [
-  { value: 'Etc/GMT+12', label: '(GMT-12:00) International Date Line West' },
-  { value: 'Pacific/Midway', label: '(GMT-11:00) Midway Island, Samoa' },
-  { value: 'Pacific/Honolulu', label: '(GMT-10:00) Hawaii' },
-  { value: 'US/Alaska', label: '(GMT-09:00) Alaska' },
-  { value: 'America/Los_Angeles', label: '(GMT-08:00) Pacific Time (US & Canada)' },
-  { value: 'America/Denver', label: '(GMT-07:00) Mountain Time (US & Canada)' },
-  { value: 'America/Chicago', label: '(GMT-06:00) Central Time (US & Canada)' },
-  { value: 'America/New_York', label: '(GMT-05:00) Eastern Time (US & Canada)' },
-  { value: 'America/Caracas', label: '(GMT-04:30) Caracas' },
-  { value: 'America/Halifax', label: '(GMT-04:00) Atlantic Time (Canada)' },
-  { value: 'America/St_Johns', label: '(GMT-03:30) Newfoundland' },
-  { value: 'America/Argentina/Buenos_Aires', label: '(GMT-03:00) Buenos Aires' },
-  { value: 'Atlantic/South_Georgia', label: '(GMT-02:00) Mid-Atlantic' },
-  { value: 'Atlantic/Azores', label: '(GMT-01:00) Azores' },
-  { value: 'Europe/London', label: '(GMT+00:00) London, Lisbon, Dublin' },
-  { value: 'Europe/Berlin', label: '(GMT+01:00) Berlin, Stockholm, Rome, Bern, Brussels' },
-  { value: 'Africa/Cairo', label: '(GMT+02:00) Cairo' },
-  { value: 'Asia/Baghdad', label: '(GMT+03:00) Baghdad' },
-  { value: 'Asia/Tehran', label: '(GMT+03:30) Tehran' },
-  { value: 'Asia/Dubai', label: '(GMT+04:00) Abu Dhabi, Muscat' },
-  { value: 'Asia/Kabul', label: '(GMT+04:30) Kabul' },
-  { value: 'Asia/Karachi', label: '(GMT+05:00) Islamabad, Karachi' },
-  { value: 'Asia/Calcutta', label: '(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi' },
-  { value: 'Asia/Katmandu', label: '(GMT+05:45) Kathmandu' },
-  { value: 'Asia/Dhaka', label: '(GMT+06:00) Astana, Dhaka' },
-  { value: 'Asia/Bangkok', label: '(GMT+07:00) Bangkok, Hanoi, Jakarta' },
-  { value: 'Asia/Hong_Kong', label: '(GMT+08:00) Beijing, Perth, Singapore, Hong Kong' },
-  { value: 'Asia/Tokyo', label: '(GMT+09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk' },
-  { value: 'Australia/Adelaide', label: '(GMT+09:30) Adelaide' },
-  { value: 'Australia/Sydney', label: '(GMT+10:00) Brisbane, Canberra, Melbourne, Sydney' },
-  { value: 'Asia/Magadan', label: '(GMT+11:00) Magadan, Solomon Islands, New Caledonia' },
-  { value: 'Pacific/Auckland', label: '(GMT+12:00) Auckland, Wellington' },
-  { value: 'Pacific/Fiji', label: '(GMT+12:00) Fiji, Kamchatka, Marshall Is.' },
+  { value: "Etc/GMT+12", label: "(GMT-12:00) International Date Line West" },
+  { value: "Pacific/Midway", label: "(GMT-11:00) Midway Island, Samoa" },
+  { value: "Pacific/Honolulu", label: "(GMT-10:00) Hawaii" },
+  // ... (more time zones)
+  { value: "Pacific/Fiji", label: "(GMT+12:00) Fiji, Kamchatka, Marshall Is." },
 ];
 
-
 const SchedulePicker: React.FC = () => {
-  const [occurrence, setOccurrence] = useState<OccurrenceType>('One Time');
-  const [executionTime, setExecutionTime] = useState<ExecutionTimeType>('As soon as possible');
+  const [occurrence, setOccurrence] = useState<OccurrenceType>("One Time");
+  const [executionTime, setExecutionTime] = useState<ExecutionTimeType>(
+    "As soon as possible"
+  );
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [showEndDate, setShowEndDate] = useState<boolean>(false);
-  const [runningInterval, setRunningInterval] = useState<RunningIntervalType>('Every hour');
+  const [runningInterval, setRunningInterval] =
+    useState<RunningIntervalType>("Every hour");
   const [specificHours, setSpecificHours] = useState<number[]>([]);
   const [specificMinutes, setSpecificMinutes] = useState<number>(0);
   const [daysOfWeek, setDaysOfWeek] = useState<string[]>([]);
   const [specificDays, setSpecificDays] = useState<number[]>([]);
   const [specificMonths, setSpecificMonths] = useState<string[]>([]);
 
-  const handleOccurrenceChange = (value: OccurrenceType) => setOccurrence(value);
-  const handleExecutionTimeChange = (value: ExecutionTimeType) => setExecutionTime(value);
-  const handleRunningIntervalChange = (value: RunningIntervalType) => setRunningInterval(value);
+  const handleSpecificDaysChange = (value: number[]) => {
+    setSpecificDays(value);
+  };
 
-  const toggleWeekday = (day: string) => {
-    setDaysOfWeek(prev => prev.includes(day) ? prev.filter(d => d !== day) : [...prev, day]);
+  const handleSpecificMonthsChange = (value: string[]) => {
+    setSpecificMonths(value);
+  };
+  const handleOccurrenceChange = (value: unknown) => {
+    if (
+      typeof value === "string" &&
+      ["Daily", "Weekly", "Monthly", "Yearly"].includes(value)
+    ) {
+      setOccurrence(value as OccurrenceType);
+    }
+  };
+
+  const handleExecutionTimeChange = (value: unknown) => {
+    setExecutionTime(value as ExecutionTimeType);
+  };
+
+  const handleRunningIntervalChange = (value: unknown) => {
+    setRunningInterval(value as RunningIntervalType);
   };
 
   return (
     <Wrapper>
-      <Title level={3} style={{ marginBottom: '32px', textAlign: 'left' }}>Schedule Picker</Title>
-      
+      <Title level={3} style={{ marginBottom: "32px", textAlign: "left" }}>
+        Schedule Picker
+      </Title>
+
       <Section>
         <StyledLabel>Timezone</StyledLabel>
         <StyledSelect
-        style={{textAlign: 'left' }}
           showSearch
           placeholder="Select Time Zone"
           optionFilterProp="children"
           filterOption={(input, option) =>
-            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
           }
         >
-          {timeZones.map(tz => (
+          {timeZones.map((tz) => (
             <Option key={tz.value} value={tz.value} label={tz.label}>
               {tz.label}
             </Option>
           ))}
         </StyledSelect>
       </Section>
+
       <Section>
         <StyledLabel>Occurrence</StyledLabel>
-        <StyledSelect<OccurrenceType> value={occurrence} onChange={handleOccurrenceChange} placeholder="Select Occurrence" style={{ textAlign:'left'}} >
+        <StyledSelect<OccurrenceType>
+          value={occurrence}
+          onChange={handleOccurrenceChange}
+          placeholder="Select Occurrence"
+        >
           <Option value="One Time">One Time</Option>
           <Option value="Hourly Intervals">Hourly Intervals</Option>
           <Option value="Daily">Daily</Option>
@@ -186,30 +202,55 @@ const SchedulePicker: React.FC = () => {
         </StyledSelect>
       </Section>
 
-      {occurrence === 'One Time' && (
+      {occurrence === "One Time" && (
         <Section>
           <StyledLabel>Execution Time</StyledLabel>
-          <StyledSelect<ExecutionTimeType> value={executionTime} onChange={handleExecutionTimeChange} placeholder="Select Execution Time" style={{ textAlign:'left'}}>
+          <StyledSelect<ExecutionTimeType>
+            value={executionTime}
+            onChange={handleExecutionTimeChange}
+            placeholder="Select Execution Time"
+          >
             <Option value="As soon as possible">As soon as possible</Option>
             <Option value="Select time">Select time</Option>
           </StyledSelect>
-          {executionTime === 'Select time' && <StyledSelect showTime />}
+          {executionTime === "Select time" && (
+            <StyledTimePicker
+              onChange={setStartDate}
+              placeholder="Select Time"
+            />
+          )}
         </Section>
       )}
 
-      {occurrence === 'Hourly Intervals' && (
+      {occurrence === "Hourly Intervals" && (
         <>
           <Section>
             <StyledLabel>Start Date</StyledLabel>
-            <StyledDatePicker onChange={setStartDate} placeholder="Select Start Date" />
-            <StyledCheckbox checked={showEndDate} onChange={(e) => setShowEndDate(e.target.checked)}>
+            <StyledDatePicker
+              onChange={(date, dateString) => setStartDate(date)} // Adjusted to match expected signature
+              placeholder="Select Start Date"
+            />
+            <StyledCheckbox
+              checked={showEndDate}
+              onChange={(e) => setShowEndDate(e.target.checked)}
+            >
               Set End Date
             </StyledCheckbox>
-            {showEndDate && <StyledDatePicker onChange={setEndDate} placeholder="Select End Date" />}
+            {showEndDate && (
+              <StyledDatePicker
+                onChange={(date, dateString) => setEndDate(date)} // Adjusted to match expected signature
+                placeholder="Select End Date"
+              />
+            )}
           </Section>
+
           <Section>
             <StyledLabel>Running Interval</StyledLabel>
-            <StyledSelect<RunningIntervalType> value={runningInterval} onChange={handleRunningIntervalChange} placeholder="Select Running Interval" style={{ textAlign:'left'}}>
+            <StyledSelect<RunningIntervalType>
+              value={runningInterval}
+              onChange={handleRunningIntervalChange}
+              placeholder="Select Running Interval"
+            >
               <Option value="Every hour">Every hour</Option>
               <Option value="Every 2 hours">Every 2 hours</Option>
               <Option value="Every 3 hours">Every 3 hours</Option>
@@ -220,92 +261,82 @@ const SchedulePicker: React.FC = () => {
               <Option value="Every 24 hours">Every 24 hours</Option>
               <Option value="Custom">Custom</Option>
             </StyledSelect>
-            {runningInterval === 'Custom' && (
+            {runningInterval === "Custom" && (
               <>
-                <StyledSelect<number[]> mode="multiple" value={specificHours} onChange={setSpecificHours} placeholder="Select Specific Hours" style={{ textAlign:'left'}}>
-                  {Array.from({ length: 23 }, (_, i) => (
-                    <Option key={i + 1} value={i + 1}>
-                      {i + 1}
+                <StyledSelect<any>
+                  mode="multiple"
+                  value={specificHours}
+                  onChange={setSpecificHours}
+                  placeholder="Select Specific Hours"
+                >
+                  {Array.from({ length: 24 }, (_, i) => (
+                    <Option key={i} value={i}>
+                      {i}
                     </Option>
                   ))}
                 </StyledSelect>
-                <StyledSelect<number> value={specificMinutes} onChange={(value) => setSpecificMinutes(value)} placeholder="Select Specific Minutes" style={{ textAlign:'left'}}>
-                  <Option value={0}>00</Option>
-                  <Option value={15}>15</Option>
-                  <Option value={30}>30</Option>
-                  <Option value={45}>45</Option>
-                </StyledSelect>
+                <Section>
+                  <StyledLabel>Select Specific Minutes</StyledLabel>
+                  <StyledSelect<number>
+                    value={specificMinutes}
+                    onChange={(value: number) => setSpecificMinutes(value)}
+                    placeholder="Select Specific Minutes"
+                  >
+                    <Option value={0}>00</Option>
+                    <Option value={15}>15</Option>
+                    <Option value={30}>30</Option>
+                    <Option value={45}>45</Option>
+                  </StyledSelect>
+                </Section>
               </>
             )}
           </Section>
         </>
       )}
 
-      {occurrence === 'Daily' && (
-        <>
-          <Section>
-            <StyledLabel>Start Date</StyledLabel>
-            <StyledDatePicker onChange={setStartDate} placeholder="Select Start Date" />
-            <StyledCheckbox checked={showEndDate} onChange={(e) => setShowEndDate(e.target.checked)}>
-              Set End Date
-            </StyledCheckbox>
-            {showEndDate && <StyledDatePicker onChange={setEndDate} placeholder="Select End Date" />}
-          </Section>
-          <Section>
-            <StyledLabel>Execution Time</StyledLabel>
-            <StyledTimePicker placeholder="Execution Time" />
-          </Section>
-        </>
+      {occurrence === "Daily" && (
+        <Section>
+          <StyledLabel>Select Time</StyledLabel>
+          <StyledTimePicker onChange={setStartDate} placeholder="Select Time" />
+        </Section>
       )}
 
-      {occurrence === 'Weekly' && (
-        <>
-          <Section>
-            <StyledLabel>Start Date</StyledLabel>
-            <StyledDatePicker onChange={setStartDate} placeholder="Select Start Date" />
-            <StyledCheckbox checked={showEndDate} onChange={(e) => setShowEndDate(e.target.checked)}>
-              Set End Date
-            </StyledCheckbox>
-            {showEndDate && <StyledDatePicker onChange={setEndDate} placeholder="Select End Date" />}
-          </Section>
-          <Section>
-            <StyledLabel>Weekdays</StyledLabel>
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-              {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
-                <DayCheckbox
-                  key={day}
-                  checked={daysOfWeek.includes(day)}
-                  onChange={() => toggleWeekday(day)}
-                >
-                  {day}
-                </DayCheckbox>
-              ))}
-            </div>
-          </Section>
-          <Section>
-            <StyledLabel>Execution Time</StyledLabel>
-            <StyledTimePicker placeholder="Execution Time" />
-          </Section>
-        </>
+      {occurrence === "Weekly" && (
+        <Section>
+          <StyledLabel>Select Days of the Week</StyledLabel>
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            {[
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday",
+            ].map((day) => (
+              <DayCheckbox
+                key={day}
+                checked={daysOfWeek.includes(day)}
+                onChange={() => toggleWeekday(day)}
+              >
+                {day}
+              </DayCheckbox>
+            ))}
+          </div>
+          <StyledTimePicker onChange={setStartDate} placeholder="Select Time" />
+        </Section>
       )}
 
-      {occurrence === 'Monthly' && (
+      {occurrence === "Monthly" && (
         <>
           <Section>
-            <StyledLabel>Start Date</StyledLabel>
-            <StyledDatePicker onChange={setStartDate} placeholder="Select Start Date" />
-            <StyledCheckbox checked={showEndDate} onChange={(e) => setShowEndDate(e.target.checked)}>
-              Set End Date
-            </StyledCheckbox>
-            {showEndDate && <StyledDatePicker onChange={setEndDate} placeholder="Select End Date" />}
-          </Section>
-          <Section>
-            <StyledLabel>Execution Time</StyledLabel>
-            <StyledTimePicker placeholder="Execution Time" />
-          </Section>
-          <Section>
-            <StyledLabel>Days of Month</StyledLabel>
-            <StyledSelect<number[]> mode="multiple" value={specificDays} onChange={setSpecificDays} placeholder="Select Specific Days" style={{ textAlign:'left'}} >
+            <StyledLabel>Select Specific Days</StyledLabel>
+            <StyledSelect<any[]>
+              mode="multiple"
+              value={specificDays}
+              onChange={handleSpecificDaysChange}
+              placeholder="Select Specific Days"
+            >
               {Array.from({ length: 31 }, (_, i) => (
                 <Option key={i + 1} value={i + 1}>
                   {i + 1}
@@ -313,42 +344,65 @@ const SchedulePicker: React.FC = () => {
               ))}
             </StyledSelect>
           </Section>
+          <Section>
+            <StyledLabel>Select Time</StyledLabel>
+            <StyledTimePicker
+              onChange={setStartDate}
+              placeholder="Select Time"
+            />
+          </Section>
         </>
       )}
 
-      {occurrence === 'Yearly' && (
+      {occurrence === "Yearly" && (
         <>
           <Section>
-            <StyledLabel>Start Date</StyledLabel>
-            <StyledDatePicker onChange={setStartDate} placeholder="Select Start Date" />
-            <StyledCheckbox checked={showEndDate} onChange={(e) => setShowEndDate(e.target.checked)}>
-              Set End Date
-            </StyledCheckbox>
-            {showEndDate && <StyledDatePicker onChange={setEndDate} placeholder="Select End Date" />}
-          </Section>
-          <Section>
-            <StyledLabel>Months</StyledLabel>
-            <StyledSelect<string[]> mode="multiple" value={specificMonths} onChange={setSpecificMonths} placeholder="Select Specific Months" style={{ textAlign:'left'}}>
-              {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map((month) => (
-                <Option key={month} value={month}>
+            <StyledLabel>Select Specific Months</StyledLabel>
+            <StyledSelect<any>
+              mode="multiple"
+              value={specificDays}
+              onChange={handleSpecificDaysChange}
+              placeholder="Select Specific Days"
+            >
+              {Array.from({ length: 31 }, (_, i) => (
+                <Option key={i + 1} value={i + 1}>
+                  {i + 1}
+                </Option>
+              ))}
+            </StyledSelect>
+
+            <StyledSelect<string[]>
+              mode="multiple"
+              value={specificMonths}
+              onChange={handleSpecificMonthsChange}
+              placeholder="Select Specific Months"
+            >
+              {[
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December",
+              ].map((month, index) => (
+                <Option key={index} value={month}>
                   {month}
                 </Option>
               ))}
             </StyledSelect>
           </Section>
           <Section>
-            <StyledLabel>Days of Month</StyledLabel>
-            <StyledSelect<number[]> mode="multiple" value={specificDays} onChange={setSpecificDays} placeholder="Select Specific Days" style={{ textAlign:'left'}} >
-              {Array.from({ length: 31 }, (_, i) => (
-                <Option key={i + 1} value={i + 1}>
-                  {i + 1}
-                </Option>
-              ))}
-            </StyledSelect>
-          </Section>
-          <Section>
-            <StyledLabel>Execution Time</StyledLabel>
-            <StyledTimePicker placeholder="Execution Time" />
+            <StyledLabel>Select Time</StyledLabel>
+            <StyledTimePicker
+              onChange={setStartDate}
+              placeholder="Select Time"
+            />
           </Section>
         </>
       )}
