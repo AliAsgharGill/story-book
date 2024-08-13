@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 import { Select, DatePicker, TimePicker, Checkbox, Typography } from "antd";
-import styled from "styled-components";
 import { Dayjs } from "dayjs";
+import styled from "styled-components";
 
+const StyledButton = styled.button`
+  /* CSS styles go here */
+`;
 const { Option } = Select;
 const { Title } = Typography;
 
@@ -138,13 +141,15 @@ const SchedulePicker: React.FC = () => {
   const [specificDays, setSpecificDays] = useState<number[]>([]);
   const [specificMonths, setSpecificMonths] = useState<string[]>([]);
 
-  const handleSpecificDaysChange = (value: number[]) => {
+  const handleSpecificDaysChange = (value: number[], option: { value: number; label: React.ReactNode }[]) => {
     setSpecificDays(value);
   };
+  
 
-  const handleSpecificMonthsChange = (value: string[]) => {
+  const handleSpecificMonthsChange = (value: string[], option: { value: string; label: React.ReactNode }[]) => {
     setSpecificMonths(value);
   };
+  
   const handleOccurrenceChange = (value: unknown) => {
     if (
       typeof value === "string" &&
@@ -160,6 +165,13 @@ const SchedulePicker: React.FC = () => {
 
   const handleRunningIntervalChange = (value: unknown) => {
     setRunningInterval(value as RunningIntervalType);
+  };
+  const toggleWeekday = (day: string) => {
+    setDaysOfWeek((prevDays) =>
+      prevDays.includes(day)
+        ? prevDays.filter((d) => d !== day)
+        : [...prevDays, day]
+    );
   };
 
   return (
@@ -227,9 +239,14 @@ const SchedulePicker: React.FC = () => {
           <Section>
             <StyledLabel>Start Date</StyledLabel>
             <StyledDatePicker
-              onChange={(date, dateString) => setStartDate(date)} // Adjusted to match expected signature
+              onChange={(date: unknown, dateString: string | string[]) => {
+                if (date instanceof Dayjs) {
+                  setStartDate(date);
+                }
+              }}
               placeholder="Select Start Date"
             />
+
             <StyledCheckbox
               checked={showEndDate}
               onChange={(e) => setShowEndDate(e.target.checked)}
@@ -238,7 +255,11 @@ const SchedulePicker: React.FC = () => {
             </StyledCheckbox>
             {showEndDate && (
               <StyledDatePicker
-                onChange={(date, dateString) => setEndDate(date)} // Adjusted to match expected signature
+                onChange={(date: unknown, dateString: string | string[]) => {
+                  if (date instanceof Dayjs) {
+                    setEndDate(date);
+                  }
+                }}
                 placeholder="Select End Date"
               />
             )}
@@ -263,10 +284,14 @@ const SchedulePicker: React.FC = () => {
             </StyledSelect>
             {runningInterval === "Custom" && (
               <>
-                <StyledSelect<any>
+                <StyledSelect
                   mode="multiple"
                   value={specificHours}
-                  onChange={setSpecificHours}
+                  onChange={(value, option) => {
+                    if (Array.isArray(value)) {
+                      setSpecificHours(value);
+                    }
+                  }}
                   placeholder="Select Specific Hours"
                 >
                   {Array.from({ length: 24 }, (_, i) => (
@@ -275,11 +300,16 @@ const SchedulePicker: React.FC = () => {
                     </Option>
                   ))}
                 </StyledSelect>
+
                 <Section>
                   <StyledLabel>Select Specific Minutes</StyledLabel>
-                  <StyledSelect<number>
+                  <StyledSelect
                     value={specificMinutes}
-                    onChange={(value: number) => setSpecificMinutes(value)}
+                    onChange={(value: unknown) => {
+                      if (typeof value === "number") {
+                        setSpecificMinutes(value);
+                      }
+                    }}
                     placeholder="Select Specific Minutes"
                   >
                     <Option value={0}>00</Option>
@@ -331,7 +361,7 @@ const SchedulePicker: React.FC = () => {
         <>
           <Section>
             <StyledLabel>Select Specific Days</StyledLabel>
-            <StyledSelect<any[]>
+            <StyledSelect
               mode="multiple"
               value={specificDays}
               onChange={handleSpecificDaysChange}
@@ -358,7 +388,7 @@ const SchedulePicker: React.FC = () => {
         <>
           <Section>
             <StyledLabel>Select Specific Months</StyledLabel>
-            <StyledSelect<any>
+            <StyledSelect
               mode="multiple"
               value={specificDays}
               onChange={handleSpecificDaysChange}
@@ -371,7 +401,7 @@ const SchedulePicker: React.FC = () => {
               ))}
             </StyledSelect>
 
-            <StyledSelect<string[]>
+            <StyledSelect
               mode="multiple"
               value={specificMonths}
               onChange={handleSpecificMonthsChange}
